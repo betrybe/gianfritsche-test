@@ -30,7 +30,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function updateLocalStorageCart(operation) {
+function updateLocalStorageCart(operation, write = true) {
   let cart = localStorage.getItem('cart');
   if (cart === null) {
     cart = [];
@@ -38,7 +38,9 @@ function updateLocalStorageCart(operation) {
     cart = JSON.parse(cart);
   }
   cart = operation(cart);
-  localStorage.setItem('cart', JSON.stringify(cart));
+  if (write) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
 }
 
 function removeItemFromLocalStorageCart(item) {
@@ -110,7 +112,7 @@ function createCartFromLocalStorage() {
   updateLocalStorageCart((cartArray) => {
     cartArray.forEach((obj) => cartList.appendChild(createCartItemElement(obj)));
     return cartArray;
-  });
+  }, false);
 }
 
 window.onload = () => {
