@@ -99,8 +99,24 @@ function addItemToCart(item) {
   updateTotalPrice();
 }
 
+function turnLoadingOn() {
+  const loading = document.createElement('p');
+  loading.classList.add('loading');
+  loading.innerText = 'loading...';
+  document.getElementsByClassName('cart')[0].appendChild(loading);
+  return loading;
+}
+
+function turnLoadingOff(loading) {
+  loading.parentNode.removeChild(loading);
+}
+
 function fetchJSON(url, callback) {
-  fetch(url).then((response) => response.json().then(callback));
+  const loading = turnLoadingOn();
+  fetch(url).then((response) => response.json().then((json) => {
+    callback(json);
+    turnLoadingOff(loading);
+  }));
 }
 
 function addItemClickListener(event) {
