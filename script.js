@@ -128,7 +128,15 @@ function createCartFromLocalStorage() {
   updateTotalPrice();
 }
 
+function emptyCartClickListener() {
+  localStorage.removeItem('cart');
+  document.getElementsByClassName('cart__items')[0].innerHTML = '';
+  updateTotalPrice();
+}
+
 window.onload = () => {
   fetchJSON(`https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`, createProductList);
   createCartFromLocalStorage();
+  const emptyCartBtn = document.getElementsByClassName('empty-cart')[0];
+  emptyCartBtn.addEventListener('click', emptyCartClickListener);
 };
